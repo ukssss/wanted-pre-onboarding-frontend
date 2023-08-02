@@ -28,7 +28,7 @@ const App = () => {
                     element: <SignUp />,
                 },
                 {
-                    path: '/tood',
+                    path: '/todo',
                     element: <Todo />,
                 },
             ],
