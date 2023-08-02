@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+import { DEV_ADDRESS } from '../../api/api';
+
 import PageH2 from '../../components/pageH2/pageH2';
 import LoginForm from '../../components/login/loginForm/loginForm';
 import LoginId from '../../components/login/loginId/loginId';
 import LoginPw from '../../components/login/loginPw/loginPw';
 import LoginValid from '../../components/login/loginValid/loginValid';
 import Button from '../../components/button/button';
+import axios from 'axios';
 
 const SignIn = () => {
     // signin
@@ -82,6 +85,29 @@ const SignIn = () => {
         navigate('/signup');
     };
 
+    // axios
+    const url = DEV_ADDRESS;
+    const api = axios.create({
+        baseURL: url,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    const onSubmit = () => {
+        api.post('/auth/signin', {
+            email,
+            password,
+        })
+            .then((res) => {
+                localStorage.setItem('token', res.data.access_token);
+                navigate('/todo');
+            })
+            .catch((err) => {
+                alert('This account does not exist');
+            });
+    };
+
     return (
         <>
             <PageH2>SignIn</PageH2>
@@ -92,7 +118,7 @@ const SignIn = () => {
                 <LoginPw id="loginPw" onChange={onChangePassword}>
                     PW
                 </LoginPw>
-                <Button data-testid="signin-button" disabled={status}>
+                <Button data-testid="signin-button" disabled={status} onClick={onSubmit}>
                     로그인
                 </Button>
                 <Button onClick={onNavigate} disabled={false}>
