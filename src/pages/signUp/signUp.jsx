@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
+import { DEV_ADDRESS } from '../../api/api';
+import axios from 'axios';
+
 import PageH2 from '../../components/pageH2/pageH2';
 import LoginForm from '../../components/login/loginForm/loginForm';
 import LoginId from '../../components/login/loginId/loginId';
 import LoginPw from '../../components/login/loginPw/loginPw';
-import Button from '../../components/button/button';
 import LoginValid from '../../components/login/loginValid/loginValid';
+import Button from '../../components/button/button';
 
 const SignUp = () => {
     // signup
@@ -82,6 +85,29 @@ const SignUp = () => {
         navigate('/signin');
     };
 
+    // axios
+    const url = DEV_ADDRESS;
+    const api = axios.create({
+        baseURL: url,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    const onSubmit = () => {
+        api.post('/auth/signup', {
+            email,
+            password,
+        })
+            .then((res) => {
+                alert('You have successfully registered as a member !');
+                navigate('/signin');
+            })
+            .catch((err) => {
+                alert('This is an existing account !');
+            });
+    };
+
     return (
         <>
             <PageH2>SignUp</PageH2>
@@ -92,7 +118,7 @@ const SignUp = () => {
                 <LoginPw id="loginPw" onChange={onChangePassword}>
                     PW
                 </LoginPw>
-                <Button data-testid="signup-button" disabled={status}>
+                <Button data-testid="signup-button" disabled={status} onClick={onSubmit}>
                     제출
                 </Button>
                 <Button onClick={onNavigate} disabled={false}>
