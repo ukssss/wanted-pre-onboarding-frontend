@@ -108,6 +108,15 @@ const SignUp = () => {
             });
     };
 
+    // token
+
+    const isLoggedIn = localStorage.getItem('token');
+    const onCheckLoggedIn = () => {
+        isLoggedIn && navigate('/todo');
+    };
+
+    useEffect(onCheckLoggedIn, [isLoggedIn, navigate]);
+
     return (
         <>
             <PageH2>SignUp</PageH2>
