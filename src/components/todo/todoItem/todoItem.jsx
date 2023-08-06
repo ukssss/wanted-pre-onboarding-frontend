@@ -1,19 +1,27 @@
-import { styled } from 'styled-components';
+import { styled, css } from 'styled-components';
 import Checkbox from '../../checkbox/checkbox';
 
-const TodoItem = ({ children }) => {
+const TodoItem = ({ id, todo, checked, text, onToggle }) => {
     return (
-        <StyledItem>
-            <StyledLabel>
-                <Checkbox />
-                <StyledSpan>{children}</StyledSpan>
-            </StyledLabel>
+        <StyledItem key={id}>
+            <Checkbox
+                defaultChecked={checked}
+                onChange={() => {
+                    onToggle(todo);
+                }}
+            />
+            <StyledSpan checked={checked}>{text}</StyledSpan>
         </StyledItem>
     );
 };
 
 const StyledItem = styled.li``;
-const StyledLabel = styled.label``;
-const StyledSpan = styled.span``;
+const StyledSpan = styled.span`
+    ${(props) =>
+        props.checked &&
+        css`
+            text-decoration: line-through;
+        `}
+`;
 
 export default TodoItem;
