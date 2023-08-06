@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
-const Checkbox = () => {
-    return <StyledCheckbox type="checkbox" />;
+const Checkbox = ({ ...restProps }) => {
+    return <StyledCheckbox type="checkbox" {...restProps} />;
 };
 
 const StyledCheckbox = styled.input``;

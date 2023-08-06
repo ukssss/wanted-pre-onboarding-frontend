@@ -8,6 +8,7 @@ import TodoCreate from '../../components/todo/todoCreate/todoCreate';
 
 import { DEV_ADDRESS } from '../../api/api';
 import axios from 'axios';
+import PageH2 from '../../components/pageH2/pageH2';
 
 const Todo = () => {
     const navigate = useNavigate();
@@ -19,8 +20,6 @@ const Todo = () => {
 
     useEffect(onCheckLoggedIn);
 
-    const [todos, setTodos] = useState([]);
-
     const url = DEV_ADDRESS;
     const api = axios.create({
         baseURL: url,
@@ -29,6 +28,13 @@ const Todo = () => {
             'Content-Type': `application/json`,
         },
     });
+
+    const [todos, setTodos] = useState([]);
+
+    useEffect(() => {
+        access_token && getTodos();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [access_token]);
 
     const getTodos = async (todo) => {
         try {
@@ -39,11 +45,6 @@ const Todo = () => {
         }
     };
 
-    useEffect(() => {
-        access_token && getTodos();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [access_token]);
-
     const createTodo = async (todo) => {
         try {
             const res = await api.post('/todos', todo);
@@ -53,13 +54,38 @@ const Todo = () => {
         }
     };
 
+    const onToggle = async (todo) => {
+        try {
+            const res = await api.put(`/todos/${todo.id}`, {
+                todo: todo.todo,
+                isCompleted: !todo.isCompleted,
+            });
+            getTodos(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <TodoTemplate>
+            <PageH2>TodoList</PageH2>
             <TodoCreate createTodo={createTodo} />
             <TodoList>
-                {todos.map((el) => {
-                    return <TodoItem key={el.id}>{el.todo}</TodoItem>;
-                })}
+                {todos.length > 0 ? (
+                    todos.map((todo) => {
+                        return (
+                            <TodoItem
+                                todo={todo}
+                                key={todo.id}
+                                text={todo.todo}
+                                checked={todo.isCompleted}
+                                onToggle={onToggle}
+                            />
+                        );
+                    })
+                ) : (
+                    <div>"Nothing,,,</div>
+                )}
             </TodoList>
         </TodoTemplate>
     );
