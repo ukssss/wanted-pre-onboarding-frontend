@@ -66,6 +66,15 @@ const Todo = () => {
         }
     };
 
+    const onDelete = async (todo) => {
+        try {
+            const res = await api.delete(`/todos/${todo.id}`);
+            getTodos(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <TodoTemplate>
             <PageH2>TodoList</PageH2>
@@ -80,6 +89,7 @@ const Todo = () => {
                                 text={todo.todo}
                                 checked={todo.isCompleted}
                                 onToggle={onToggle}
+                                onDelete={onDelete}
                             />
                         );
                     })
