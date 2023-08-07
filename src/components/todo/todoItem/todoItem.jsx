@@ -6,6 +6,7 @@ import Button from '../../button/button';
 
 const TodoItem = ({ id, todo, checked, text, onToggle, onEdit, onDelete }) => {
     const [status, setStatus] = useState(false);
+    const [edit, setEdit] = useState(text);
 
     return (
         <StyledItem key={id}>
@@ -19,9 +20,24 @@ const TodoItem = ({ id, todo, checked, text, onToggle, onEdit, onDelete }) => {
                 {status ? (
                     <>
                         <StyledLabel htmlFor={id}>
-                            <StyledInput id={id} type="text" data-testid="modify-input" />
+                            <StyledInput
+                                id={id}
+                                type="text"
+                                data-testid="modify-input"
+                                onChange={(e) => {
+                                    setEdit(e.target.value);
+                                }}
+                            />
                         </StyledLabel>
-                        <Button data-testid="submit-button">제출</Button>
+                        <Button
+                            data-testid="submit-button"
+                            onClick={() => {
+                                onEdit(todo, edit);
+                                setStatus(false);
+                            }}
+                        >
+                            제출
+                        </Button>
                         <Button
                             data-testid="cancel-button"
                             onClick={() => {

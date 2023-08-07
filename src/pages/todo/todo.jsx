@@ -66,6 +66,18 @@ const Todo = () => {
         }
     };
 
+    const onEdit = async (todo, edit) => {
+        try {
+            const res = await api.put(`/todos/${todo.id}`, {
+                todo: edit,
+                isCompleted: todo.isCompleted,
+            });
+            getTodos(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const onDelete = async (todo) => {
         try {
             const res = await api.delete(`/todos/${todo.id}`);
@@ -89,6 +101,7 @@ const Todo = () => {
                                 text={todo.todo}
                                 checked={todo.isCompleted}
                                 onToggle={onToggle}
+                                onEdit={onEdit}
                                 onDelete={onDelete}
                             />
                         );
