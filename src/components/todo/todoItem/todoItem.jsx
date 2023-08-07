@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import Checkbox from '../../checkbox/checkbox';
 import Button from '../../button/button';
+import Label from '../../label/label';
 
 const TodoItem = ({ id, todo, checked, text, onToggle, onEdit, onDelete }) => {
     const [status, setStatus] = useState(false);
@@ -47,6 +48,7 @@ const TodoItem = ({ id, todo, checked, text, onToggle, onEdit, onDelete }) => {
 
     const renderEditMode = () => (
         <>
+            <Label id={id}>Edit Todo</Label>
             <StyledInput id={id} type="text" data-testid="modify-input" onChange={handleChange} value={todoText} />
             <Button data-testid="submit-button" onClick={handleSubmit}>
                 제출
