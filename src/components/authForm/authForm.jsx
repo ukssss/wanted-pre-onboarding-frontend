@@ -102,29 +102,25 @@ const AuthForm = ({ usage, ...restProps }) => {
             <StyledDiv direction="column">
                 <Label htmlFor="id">ID</Label>
                 <Input data-testid="email-input" id="id" type="text" onChange={onChangeEmail} value={email} />
-                {emailCheck && <StyledInfo>이메일 체크란</StyledInfo>}
+                {emailCheck && <StyledInfo>이메일 양식에 어긋납니다</StyledInfo>}
                 <Label htmlFor="pw">PW</Label>
                 <Input data-testid="password-input" id="pw" type="password" onChange={onChangePw} value={password} />
-                {passwordCheck && <StyledInfo>패스워드 체크란</StyledInfo>}
+                {passwordCheck && <StyledInfo>올바르지 않은 비밀번호 양식입니다</StyledInfo>}
             </StyledDiv>
             <StyledDiv>
                 {usage === 'signin' ? (
                     <>
-                        <Button data-testid="signin-button" type="submit" onClick={onSignIn}>
+                        <Button data-testid="signin-button" onClick={onSignIn}>
                             로그인
                         </Button>
-                        <Button type="button" onClick={onNavigateSignUp}>
-                            회원가입
-                        </Button>
+                        <Button onClick={onNavigateSignUp}>회원가입</Button>
                     </>
                 ) : (
                     <>
-                        <Button data-testid="signup-button" type="submit" onClick={onSignUp}>
+                        <Button data-testid="signup-button" onClick={onSignUp}>
                             제출
                         </Button>
-                        <Button type="button" onClick={onNavigateSignIn}>
-                            돌아가기
-                        </Button>
+                        <Button onClick={onNavigateSignIn}>돌아가기</Button>
                     </>
                 )}
             </StyledDiv>
