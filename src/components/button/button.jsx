@@ -1,8 +1,8 @@
 import { styled } from 'styled-components';
 
-const Button = ({ disabled, children, ...restProps }) => {
+const Button = ({ type, disabled, children, ...restProps }) => {
     return (
-        <StyledButton type="button" disabled={disabled} {...restProps}>
+        <StyledButton type={type} disabled={disabled} {...restProps}>
             {children}
         </StyledButton>
     );
