@@ -1,3 +1,4 @@
+import React from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 
@@ -8,7 +9,9 @@ const SignIn = lazy(() => import('../pages/signIn/signIn'));
 const SignUp = lazy(() => import('../pages/signUp/signUp'));
 const Todo = lazy(() => import('../pages/todo/todo'));
 
-const App = () => {
+interface AppProps {}
+
+const App = ({}: AppProps) => {
     const router = createBrowserRouter([
         {
             path: '/',
