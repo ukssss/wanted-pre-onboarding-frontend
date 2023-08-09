@@ -1,9 +1,10 @@
 import { styled } from 'styled-components';
 import { useState } from 'react';
+import { createTodo } from '../../../hooks/useTodo/useTodo';
 
 import Button from '../../button/button';
 
-const TodoCreate = ({ createTodo }) => {
+const TodoCreate = () => {
     const [value, setValue] = useState('');
 
     const onChange = (e) => setValue(e.target.value);
