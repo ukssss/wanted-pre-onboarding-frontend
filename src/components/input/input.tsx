@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { HTMLProps } from 'react';
 import { styled } from 'styled-components';
 
-interface InputProps {
+interface InputProps extends HTMLProps<HTMLInputElement> {
     id: string;
     type: 'text' | 'password';
-    placeholder: string;
     dataTestId: 'email-input' | 'password-input';
+    onChange?: (e: any) => void;
+    value?: string;
+    placeholder?: string;
 }
 
 const Input = ({ id, type, placeholder, dataTestId, ...restProps }: InputProps) => {

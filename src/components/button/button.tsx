@@ -3,9 +3,10 @@ import { styled } from 'styled-components';
 
 interface ButtonProps {
     type: 'button' | 'submit' | 'reset';
-    disabled: boolean;
-    onClick?: () => void;
     children: React.ReactNode;
+    dataTestId?: 'signin-button' | 'signup-button';
+    disabled?: boolean;
+    onClick?: () => void;
 }
 
 const Button = ({ type, disabled, onClick, children }: ButtonProps) => {
