@@ -1,8 +1,8 @@
-import { styled, css } from 'styled-components';
+import { css, styled } from 'styled-components';
 
-const Label = ({ id, srOnly, children, ...restProps }) => {
+const Label = ({ id, children, ...restProps }) => {
     return (
-        <StyledLabel htmlFor={id} srOnly={srOnly} {...restProps}>
+        <StyledLabel htmlFor={id} {...restProps}>
             {children}
         </StyledLabel>
     );
@@ -10,9 +10,8 @@ const Label = ({ id, srOnly, children, ...restProps }) => {
 
 const StyledLabel = styled.label`
     ${(props) =>
-        props.srOnly &&
+        props.$sronly &&
         css`
-            /* sr-only */
             position: absolute;
             width: 1px;
             height: 1px;
