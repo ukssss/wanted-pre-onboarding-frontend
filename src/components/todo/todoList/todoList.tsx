@@ -1,10 +1,13 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { access_token } from '../../../utils/handleTodo/handleTodo';
 import { getTodos } from '../../../hooks/useTodo/useTodo';
 import TodoItem from '../todoItem/todoItem';
 
-const TodoList = ({ children }) => {
+interface TodoListProps {}
+
+const TodoList = ({}: TodoListProps) => {
     const [todos, setTodos] = useState([]);
 
     useEffect(() => {
@@ -15,7 +18,9 @@ const TodoList = ({ children }) => {
         <StyledUl>
             {todos.length > 0 ? (
                 todos.map((todo) => {
-                    return <TodoItem todo={todo} key={todo.id} text={todo.todo} checked={todo.isCompleted} />;
+                    return (
+                        <TodoItem key={todo.id} id={todo.id} todo={todo} checked={todo.isCompleted} text={todo.todo} />
+                    );
                 })
             ) : (
                 <div>"Nothing,,,"</div>

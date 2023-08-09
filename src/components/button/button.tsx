@@ -4,7 +4,13 @@ import { styled } from 'styled-components';
 interface ButtonProps {
     type: 'button' | 'submit' | 'reset';
     children: React.ReactNode;
-    dataTestId?: 'signin-button' | 'signup-button';
+    dataTestId?:
+        | 'signin-button'
+        | 'signup-button'
+        | 'modify-button'
+        | 'delete-button'
+        | 'submit-button'
+        | 'cancel-button';
     disabled?: boolean;
     onClick?: () => void;
 }

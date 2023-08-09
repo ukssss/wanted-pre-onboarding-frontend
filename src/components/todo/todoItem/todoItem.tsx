@@ -1,3 +1,4 @@
+import React from 'react';
 import { styled, css } from 'styled-components';
 import { useState } from 'react';
 
@@ -7,7 +8,14 @@ import Label from '../../label/label';
 import Checkbox from '../../checkbox/checkbox';
 import Button from '../../button/button';
 
-const TodoItem = ({ id, todo, checked, text }) => {
+interface TodoItemProps {
+    id: string;
+    todo: any[];
+    checked: boolean;
+    text: string;
+}
+
+const TodoItem = ({ id, todo, checked, text }: TodoItemProps) => {
     const [status, setStatus] = useState(false);
     const [todoText, setTodoText] = useState(text);
     const [initTodoText, setInitTodoText] = useState(text);
@@ -34,11 +42,12 @@ const TodoItem = ({ id, todo, checked, text }) => {
     const renderViewMode = () => (
         <>
             <StyledSpan checked={checked}>{text}</StyledSpan>
-            <Button data-testid="modify-button" onClick={handleEdit}>
+            <Button type="button" dataTestId="modify-button" onClick={handleEdit}>
                 수정
             </Button>
             <Button
-                data-testid="delete-button"
+                type="button"
+                dataTestId="delete-button"
                 onClick={() => {
                     onDelete(todo);
                 }}
@@ -50,23 +59,29 @@ const TodoItem = ({ id, todo, checked, text }) => {
 
     const renderEditMode = () => (
         <>
-            <Label id={id} $sronly={true}>
+            <Label id={`edit-${id}`} sronly={true}>
                 Edit Todo
             </Label>
-            <StyledInput id={id} type="text" data-testid="modify-input" onChange={handleChange} value={todoText} />
-            <Button data-testid="submit-button" onClick={handleSubmit}>
+            <StyledInput
+                id={`edit-${id}`}
+                type="text"
+                data-testid="modify-input"
+                onChange={handleChange}
+                value={todoText}
+            />
+            <Button type="submit" dataTestId="submit-button" onClick={handleSubmit}>
                 제출
             </Button>
-            <Button data-testid="cancel-button" onClick={handleCancel}>
+            <Button type="reset" dataTestId="cancel-button" onClick={handleCancel}>
                 취소
             </Button>
         </>
     );
 
     return (
-        <StyledItem key={id}>
+        <StyledItem>
             <Checkbox
-                defaultChecked={checked}
+                checked={checked}
                 onChange={() => {
                     onToggle(todo);
                 }}
@@ -76,8 +91,12 @@ const TodoItem = ({ id, todo, checked, text }) => {
     );
 };
 
+interface StyledSpanProps {
+    checked: boolean;
+}
+
 const StyledItem = styled.li``;
-const StyledSpan = styled.span`
+const StyledSpan = styled.span<StyledSpanProps>`
     ${(props) =>
         props.checked &&
         css`
