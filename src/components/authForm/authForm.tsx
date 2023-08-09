@@ -1,3 +1,4 @@
+import React from 'react';
 import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +9,15 @@ import Input from '../input/input';
 import Label from '../label/label';
 import Button from '../button/button';
 
-const AuthForm = ({ usage, ...restProps }) => {
+interface AuthFormProps {
+    usage: 'signin' | 'signup';
+}
+
+interface StyledDivProps {
+    direction?: string;
+}
+
+const AuthForm = ({ usage, ...restProps }: AuthFormProps) => {
     const navigate = useNavigate();
     const onNavigateSignUp = () => {
         navigate('/signup');
@@ -100,27 +109,35 @@ const AuthForm = ({ usage, ...restProps }) => {
     return (
         <StyledForm onSubmit={usage === 'signin' ? onSignIn : onSignUp} {...restProps}>
             <StyledDiv direction="column">
-                <Label htmlFor="id">ID</Label>
-                <Input data-testid="email-input" id="id" type="text" onChange={onChangeEmail} value={email} />
+                <Label id="id" sronly={false}>
+                    ID
+                </Label>
+                <Input dataTestId="email-input" id="id" type="text" onChange={onChangeEmail} value={email} />
                 {emailCheck && <StyledInfo>이메일 양식에 어긋납니다</StyledInfo>}
-                <Label htmlFor="pw">PW</Label>
-                <Input data-testid="password-input" id="pw" type="password" onChange={onChangePw} value={password} />
+                <Label id="pw" sronly={false}>
+                    PW
+                </Label>
+                <Input dataTestId="password-input" id="pw" type="password" onChange={onChangePw} value={password} />
                 {passwordCheck && <StyledInfo>올바르지 않은 비밀번호 양식입니다</StyledInfo>}
             </StyledDiv>
             <StyledDiv>
                 {usage === 'signin' ? (
                     <>
-                        <Button data-testid="signin-button" onClick={onSignIn}>
+                        <Button type="button" dataTestId="signin-button" onClick={onSignIn}>
                             로그인
                         </Button>
-                        <Button onClick={onNavigateSignUp}>회원가입</Button>
+                        <Button type="button" onClick={onNavigateSignUp}>
+                            회원가입
+                        </Button>
                     </>
                 ) : (
                     <>
-                        <Button data-testid="signup-button" onClick={onSignUp}>
+                        <Button type="button" dataTestId="signup-button" onClick={onSignUp}>
                             제출
                         </Button>
-                        <Button onClick={onNavigateSignIn}>돌아가기</Button>
+                        <Button type="button" onClick={onNavigateSignIn}>
+                            돌아가기
+                        </Button>
                     </>
                 )}
             </StyledDiv>
@@ -134,7 +151,7 @@ const StyledForm = styled.form`
     flex-direction: column;
     gap: 8px;
 `;
-const StyledDiv = styled.div`
+const StyledDiv = styled.div<StyledDivProps>`
     display: flex;
     flex-direction: ${(props) => props.direction || 'row'};
 `;
