@@ -1,11 +1,13 @@
 import { styled, css } from 'styled-components';
 import { useState } from 'react';
 
+import { onToggle, onEdit, onDelete } from '../../../hooks/useTodo/useTodo';
+
+import Label from '../../label/label';
 import Checkbox from '../../checkbox/checkbox';
 import Button from '../../button/button';
-import Label from '../../label/label';
 
-const TodoItem = ({ id, todo, checked, text, onToggle, onEdit, onDelete }) => {
+const TodoItem = ({ id, todo, checked, text }) => {
     const [status, setStatus] = useState(false);
     const [todoText, setTodoText] = useState(text);
     const [initTodoText, setInitTodoText] = useState(text);
@@ -48,7 +50,9 @@ const TodoItem = ({ id, todo, checked, text, onToggle, onEdit, onDelete }) => {
 
     const renderEditMode = () => (
         <>
-            <Label id={id}>Edit Todo</Label>
+            <Label id={id} $sronly={true}>
+                Edit Todo
+            </Label>
             <StyledInput id={id} type="text" data-testid="modify-input" onChange={handleChange} value={todoText} />
             <Button data-testid="submit-button" onClick={handleSubmit}>
                 제출
