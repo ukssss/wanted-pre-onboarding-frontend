@@ -1,6 +1,9 @@
+import React from 'react';
 import { styled } from 'styled-components';
 
-const Checkbox = ({ ...restProps }) => {
+interface CheckboxProps {}
+
+const Checkbox = ({ ...restProps }: CheckboxProps) => {
     return <StyledCheckbox type="checkbox" {...restProps} />;
 };
 

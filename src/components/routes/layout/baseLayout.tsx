@@ -1,7 +1,10 @@
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '../../header/header';
 
-const BaseLayout = () => {
+interface BaseLayoutProps {}
+
+const BaseLayout = ({ ...restProps }: BaseLayoutProps) => {
     return (
         <>
             <div>
