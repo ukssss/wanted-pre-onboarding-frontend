@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { access_token } from '../../utils/handleTodo/handleTodo';
+import { useAuth } from '../../context/authContext';
 
 import PageH2 from '../../components/pageH2/pageH2';
 import AuthForm from '../../components/authForm/authForm';
 
 const SignIn = () => {
     const navigate = useNavigate();
+    const { token } = useAuth();
 
     useEffect(() => {
-        access_token && navigate('/todo');
-    }, [navigate]);
+        token && navigate('/todo');
+    }, [navigate, token]);
 
     return (
         <>

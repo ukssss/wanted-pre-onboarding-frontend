@@ -2,7 +2,8 @@ import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { auth } from '../../utils/auth/auth';
+import authService from '../../api/authService';
+import { useAuth } from '../../context/authContext';
 
 import Input from '../input/input';
 import Label from '../label/label';
@@ -10,6 +11,7 @@ import Button from '../button/button';
 
 const AuthForm = ({ usage, ...restProps }) => {
     const navigate = useNavigate();
+    const { setToken } = useAuth();
     const onNavigateSignUp = () => {
         navigate('/signup');
     };
@@ -25,7 +27,7 @@ const AuthForm = ({ usage, ...restProps }) => {
         status: false,
     });
 
-    const { email, password, emailCheck, passwordCheck } = state;
+    const { email, password, emailCheck, passwordCheck, status } = state;
 
     const onChangeEmail = (e) => {
         setState((prev) => {
@@ -63,42 +65,53 @@ const AuthForm = ({ usage, ...restProps }) => {
         }
     }, [password]);
 
-    const onSignIn = () => {
-        auth.post('/auth/signin', {
-            email,
-            password,
-        })
-            .then((res) => {
-                localStorage.setItem('token', res.data.access_token);
-                navigate('/todo');
-            })
-            .catch((err) => {
-                alert('This account does not exist');
-                setState((prev) => {
-                    return { ...prev, email: '', password: '' };
-                });
+    useEffect(() => {
+        if (email.length > 0 && password.length > 0 && !emailCheck && !passwordCheck) {
+            setState((prev) => {
+                return { ...prev, status: false };
             });
+        } else {
+            setState((prev) => {
+                return { ...prev, status: true };
+            });
+        }
+    }, [email.length, password.length, emailCheck, passwordCheck]);
+
+    const onSignIn = async (e) => {
+        e.preventDefault();
+
+        try {
+            if (!email || !password) return;
+            const token = await authService.signIn({ email, password });
+            localStorage.setItem('token', token);
+            setToken(token);
+            navigate('/todo');
+        } catch (err) {
+            alert('This account does not exist');
+            setState((prev) => {
+                return { ...prev, email: '', password: '' };
+            });
+        }
     };
 
-    const onSignUp = () => {
-        auth.post('/auth/signup', {
-            email,
-            password,
-        })
-            .then((res) => {
-                alert('You have successfully registered as a member !');
-                navigate('/signin');
-            })
-            .catch((err) => {
-                alert('This is an existing account !');
-                setState((prev) => {
-                    return { ...prev, email: '', password: '' };
-                });
+    const onSignUp = async (e) => {
+        e.preventDefault();
+
+        try {
+            if (!email || !password) return;
+            await authService.signUp({ email, password });
+            alert('You have successfully registered as a member !');
+            navigate('/signin');
+        } catch (err) {
+            alert('This is an existing account !');
+            setState((prev) => {
+                return { ...prev, email: '', password: '' };
             });
+        }
     };
 
     return (
-        <StyledForm onSubmit={usage === 'signin' ? onSignIn : onSignUp} {...restProps}>
+        <StyledForm onSubmit={usage === 'signin' ? onSignIn : onSignUp}>
             <StyledDiv direction="column">
                 <Label htmlFor="id">ID</Label>
                 <Input data-testid="email-input" id="id" type="text" onChange={onChangeEmail} value={email} />
@@ -110,17 +123,21 @@ const AuthForm = ({ usage, ...restProps }) => {
             <StyledDiv>
                 {usage === 'signin' ? (
                     <>
-                        <Button data-testid="signin-button" onClick={onSignIn}>
+                        <Button type="submit" dataTestId="signin-button" disabled={status} onClick={onSignIn}>
                             로그인
                         </Button>
-                        <Button onClick={onNavigateSignUp}>회원가입</Button>
+                        <Button type="button" dataTestId="default" disabled={false} onClick={onNavigateSignUp}>
+                            회원가입
+                        </Button>
                     </>
                 ) : (
                     <>
-                        <Button data-testid="signup-button" onClick={onSignUp}>
+                        <Button type="submit" dataTestId="signup-button" disabled={status} onClick={onSignUp}>
                             제출
                         </Button>
-                        <Button onClick={onNavigateSignIn}>돌아가기</Button>
+                        <Button type="button" dataTestId="default" disabled={false} onClick={onNavigateSignIn}>
+                            돌아가기
+                        </Button>
                     </>
                 )}
             </StyledDiv>
