@@ -25,4 +25,8 @@ $ npm start
 
 ### Auth
 
+![auth](./public/auth.gif)
+
 ### Todo
+
+![todo](./public/todo.gif)
