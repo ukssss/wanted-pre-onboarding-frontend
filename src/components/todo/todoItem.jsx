@@ -42,10 +42,10 @@ const TodoItem = ({ id, todo, isCompleted, onUpdate, onDelete }) => {
             <Span id={id} checked={isCompleted}>
                 {todo}
             </Span>
-            <Button type="button" data-testid="modify-button" onClick={handleEdit}>
+            <Button type="button" dataTestId="modify-button" onClick={handleEdit}>
                 수정
             </Button>
-            <Button type="button" data-testid="delete-button" onClick={handleDelete}>
+            <Button type="button" dataTestId="delete-button" onClick={handleDelete}>
                 삭제
             </Button>
         </>
@@ -53,12 +53,14 @@ const TodoItem = ({ id, todo, isCompleted, onUpdate, onDelete }) => {
 
     const editLayout = () => (
         <>
-            <Label>Edit Mode</Label>
-            <Input type="text" id={id} data-testid="modify-input" value={todoText} onChange={handleChange} />
-            <Button type="button" data-testid="submit-button" onClick={handleUpdate}>
-                확인
+            <Label $sronly>Edit Mode</Label>
+            <Form onSubmit={handleUpdate}>
+                <Input type="text" id={id} data-testid="modify-input" value={todoText} onChange={handleChange} />
+            </Form>
+            <Button type="submit" dataTestId="submit-button" onClick={handleUpdate}>
+                제출
             </Button>
-            <Button type="button" data-testid="cancel-button" onClick={handleCancel}>
+            <Button type="button" dataTestId="cancel-button" onClick={handleCancel}>
                 취소
             </Button>
         </>
@@ -66,13 +68,18 @@ const TodoItem = ({ id, todo, isCompleted, onUpdate, onDelete }) => {
 
     return (
         <Li>
-            <Checkbox checked={isCompleted} onChange={handleCheckBox} />
-            {isEditing ? editLayout() : viewLayout()}
+            <Div>
+                <Checkbox checked={isCompleted} onChange={handleCheckBox} />
+                {isEditing ? editLayout() : viewLayout()}
+            </Div>
         </Li>
     );
 };
 
 const Li = styled.li``;
+const Div = styled.div`
+    display: flex;
+`;
 const Span = styled.span`
     ${(props) =>
         props.checked &&
@@ -80,5 +87,6 @@ const Span = styled.span`
             text-decoration: line-through;
         `}
 `;
+const Form = styled.form``;
 
 export default TodoItem;

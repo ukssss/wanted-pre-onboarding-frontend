@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { DEV_ADDRESS } from './api';
+import { DEV_ADDRESS, PROD_ADDRESS } from './api';
 
 const axiosInstance = axios.create({
-    baseURL: DEV_ADDRESS,
+    baseURL: PROD_ADDRESS,
     headers: {
         'Content-Type': 'application/json',
     },

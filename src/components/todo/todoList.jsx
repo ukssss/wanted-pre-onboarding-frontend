@@ -73,7 +73,7 @@ const TodoList = () => {
             <TodoForm onSubmit={handleSubmit}>
                 <Label id="todo"></Label>
                 <Input id="todo" type="text" onChange={handleChange} value={value} data-testid="new-todo-input" />
-                <Button type="submit" data-testid="new-todo-add-button">
+                <Button type="submit" dataTestId="new-todo-add-button">
                     추가
                 </Button>
             </TodoForm>
