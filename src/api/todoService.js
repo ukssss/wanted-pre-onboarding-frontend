@@ -1,4 +1,4 @@
-import { axiosInstance } from 'api/index';
+import axiosInstance from './axiosInstance';
 
 class TodoService {
     async createTodo(todo, token) {
@@ -23,7 +23,7 @@ class TodoService {
         }
     }
 
-    async getTodo(token) {
+    async getTodos(token) {
         try {
             if (!token) {
                 throw new Error('Token does not exist');
