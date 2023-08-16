@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import { AuthProvider } from '../context/authContext';
 
-const BaseLayout = lazy(() => import('../components/routes/layout/baseLayout'));
+const BaseLayout = lazy(() => import('../components/baseLayout/baseLayout'));
 const NotFound = lazy(() => import('../pages/notFound/notFound'));
 const Main = lazy(() => import('../pages/main/main'));
 const SignIn = lazy(() => import('../pages/signIn/signIn'));
