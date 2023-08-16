@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
+import { AuthProvider } from '../context/authContext';
 
 const BaseLayout = lazy(() => import('../components/routes/layout/baseLayout'));
 const NotFound = lazy(() => import('../pages/notFound/notFound'));
@@ -37,9 +38,11 @@ const App = () => {
 
     return (
         <div>
-            <Suspense fallback="Loading result...⇡⇣">
-                <RouterProvider router={router} />
-            </Suspense>
+            <AuthProvider>
+                <Suspense fallback="Loading result...⇡⇣">
+                    <RouterProvider router={router} />
+                </Suspense>
+            </AuthProvider>
         </div>
     );
 };
