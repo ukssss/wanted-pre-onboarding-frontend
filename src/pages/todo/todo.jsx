@@ -1,22 +1,21 @@
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { access_token } from '../../utils/handleTodo/handleTodo';
+import { useAuth } from '../../context/authContext';
+import { useEffect } from 'react';
 
 import PageH2 from '../../components/pageH2/pageH2';
-import TodoCreate from '../../components/todo/todoCreate/todoCreate';
-import TodoList from '../../components/todo/todoList/todoList';
+import TodoList from '../../components/todo/todoList';
 
 const Todo = () => {
     const navigate = useNavigate();
+    const { token } = useAuth();
 
     useEffect(() => {
-        !access_token && navigate('/signin');
-    }, [navigate]);
+        !token && navigate('/signin');
+    }, [navigate, token]);
 
     return (
         <>
             <PageH2>TodoList</PageH2>
-            <TodoCreate />
             <TodoList />
         </>
     );
